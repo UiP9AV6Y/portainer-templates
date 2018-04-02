@@ -1,0 +1,17 @@
+---
+
+version: '3.6'
+
+services:
+  crontab:
+    image: rancher/container-crontab
+    restart: always
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    deploy:
+      mode: global
+      replicas: 1
+      restart_policy:
+        condition: any

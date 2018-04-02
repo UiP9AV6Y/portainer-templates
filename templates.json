@@ -17,5 +17,17 @@
         "description": "Location of the templates manifest."
       }
     ]
+  },
+  {
+    "type": "stack",
+    "title": "Container Crontab",
+    "description": "Simple cron runner for containers",
+    "note": "A microservice that will perform actions on a Docker container based on cron schedule.",
+    "categories": ["docker"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "scheduler/docker-stack.yml"
+    }
   }
 ]
