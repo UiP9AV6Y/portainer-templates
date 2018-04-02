@@ -5,7 +5,6 @@ version: '3.2'
 services:
   monitor:
     image: v2tec/watchtower
-    restart: always
     command:
       - --cleanup
       - --schedule "${CRON_SCHEDULE}"
