@@ -29,5 +29,24 @@
       "url": "https://github.com/uip9av6y/portainer-templates",
       "stackfile": "scheduler/docker-stack.yml"
     }
+  },
+  {
+    "type": "stack",
+    "title": "Watchtower",
+    "description": "Automatically update running Docker containers",
+    "note": "Watches your containers and automatically restarts them whenever their image is refreshed. ",
+    "categories": ["docker"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "watchtower/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "CRON_SCHEDULE",
+        "label": "Cron schedule",
+        "description": "Activity schedule for watchtower to perform upgrades."
+      }
+    ]
   }
 ]
