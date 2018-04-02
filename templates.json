@@ -1,0 +1,21 @@
+[
+  {
+    "type": "stack",
+    "title": "Portainer",
+    "description": "Simple management UI for Docker",
+    "note": "Portainer is a lightweight management UI which allows you to easily manage your different Docker environments (Docker hosts or Swarm clusters).",
+    "categories": ["docker"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "portainer/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "TEMPLATES_URI",
+        "label": "Manifest URI",
+        "description": "Location of the templates manifest."
+      }
+    ]
+  }
+]

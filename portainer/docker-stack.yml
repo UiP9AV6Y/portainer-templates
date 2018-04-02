@@ -1,0 +1,29 @@
+---
+
+version: '3.6'
+
+services:
+
+  portainer:
+    image: portainer/portainer
+    command:
+      - --no-analytics
+      - --host=unix:///var/run/docker.sock
+      - --templates=${TEMPLATES_URI}
+    ports:
+      - "9000:9000"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: volume
+        source: portainer-data
+        target: /data
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+
+volumes:
+  portainer-data:
