@@ -1,6 +1,25 @@
 [
   {
     "type": "stack",
+    "title": "Unifi Controller",
+    "description": "Unifi Access Point controller",
+    "note": "The UniFi Controller is a wireless network management software solution from Ubiquiti Networks™. It allows you to manage multiple wireless networks using a web browser.",
+    "categories": ["network", "infrastructure"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "unifi-ap/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "SYSTEM_IP",
+        "label": "Public address",
+        "description": "Public address for communication with devices."
+      }
+    ]
+  },
+  {
+    "type": "stack",
     "title": "Portainer",
     "description": "Simple management UI for Docker",
     "note": "Portainer is a lightweight management UI which allows you to easily manage your different Docker environments (Docker hosts or Swarm clusters).",
