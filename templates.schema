@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Portainer Container/Stack Templates",
+    "type": "array",
+    "items": {
+        "title": "Template",
+        "type": "object",
+        "properties": {
+            "type": {
+                "enum": ["stack", "container"]
+            },
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "categories": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string" },
+                "uniqueItems": true
+            },
+            "repository": {
+                "type": "object",
+                "properties": {
+                    "url": { "type": "string" },
+                    "stackfile": { "type": "string" }
+                },
+                "required": [ "url", "stackfile"]
+            },
+            "platform": { "type": "string" },
+            "logo": { "type": "string" },
+            "image": { "type": "string" },
+            "ports": { "type": "array" },
+            "volumes": { "type": "array" },
+            "env": { "type": "array" }
+        },
+        "required": ["title", "type"]
+    }
+}
