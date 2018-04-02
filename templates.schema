@@ -10,6 +10,7 @@
                 "enum": ["stack", "container"]
             },
             "title": { "type": "string" },
+            "note": { "type": "string" },
             "description": { "type": "string" },
             "categories": {
                 "type": "array",
@@ -23,15 +24,71 @@
                     "url": { "type": "string" },
                     "stackfile": { "type": "string" }
                 },
-                "required": [ "url", "stackfile"]
+                "required": ["url", "stackfile"]
             },
-            "platform": { "type": "string" },
+            "platform": {
+                "enum": ["linux", "windows"]
+            },
             "logo": { "type": "string" },
+            "privileged": { "type": "boolean" },
+            "interactive": { "type": "boolean" },
+            "registry": { "type": "string" },
+            "command": { "type": "string" },
+            "network": { "type": "string" },
             "image": { "type": "string" },
-            "ports": { "type": "array" },
-            "volumes": { "type": "array" },
-            "env": { "type": "array" }
+            "restart_policy": {
+                "enum": [
+                    "no",
+                    "unless-stopped",
+                    "on-failure",
+                    "always"
+                ]
+            },
+            "ports": {
+                "type": "array",
+                "items": { "type": "string" }
+            },
+            "volumes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "container": { "type": "string" },
+                        "bind": { "type": "string" }
+                    },
+                    "required": ["container"]
+                }
+            },
+            "env": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "the name of the environment variable, as supported in the container image"
+                        },
+                        "label": {
+                            "type": "string",
+                            "description": "label for the input in the UI"
+                        },
+                        "type": {
+                            "enum": ["container"],
+                            "description": "Depending on the value in type field, the view will display a different input"
+                        },
+                        "set": {
+                            "type": "string",
+                            "description": "pre-defined value for the variable, will not generate an input in the UI"
+                        },
+                        "select": {
+                            "type": "array",
+                            "description": "an array of possible values, will generate a select input"
+                        }
+                    },
+                    "required": ["name", "label"]
+                }
+            }
         },
-        "required": ["title", "type"]
+        "required": ["title", "type", "description"]
     }
 }
