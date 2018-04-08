@@ -1,6 +1,55 @@
 [
   {
     "type": "stack",
+    "title": "NSD",
+    "description": "NLnet Labs Name Server Daemon",
+    "note": "The NLnet Labs Name Server Daemon (NSD) is an authoritative DNS name server. It has been developed for operations in environments where speed, reliability, stability and security are of high importance.",
+    "categories": ["network", "dns"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "nsd/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "DNS_PORT",
+        "label": "DNS Port",
+        "description": "Exposed port for DNS queries."
+      },
+      {
+        "name": "CONFIG_REPO",
+        "label": "Config repository URL",
+        "description": "URL pointing to the git repository containing NSD configuration."
+      },
+      {
+        "name": "CONFIG_BRANCH",
+        "label": "Config repository branch",
+        "description": "Repository branch."
+      },
+      {
+        "name": "ZONES_REPO",
+        "label": "Zones repository URL",
+        "description": "URL pointing to the git repository containing Bind9 zonefiles."
+      },
+      {
+        "name": "ZONES_BRANCH",
+        "label": "Zones repository branch",
+        "description": "Repository branch."
+      },
+      {
+        "name": "GIT_USER",
+        "label": "Git User",
+        "description": "Username to authenticate against the remote repositories."
+      },
+      {
+        "name": "GIT_KEY",
+        "label": "Docker secret name",
+        "description": "Docker secret name containing the SSH key for git repository access."
+      },
+    ]
+  },
+  {
+    "type": "stack",
     "title": "Unbound",
     "description": "Unbound DNS resolver",
     "note": "Unbound is a validating, recursive, and caching DNS resolver.",
