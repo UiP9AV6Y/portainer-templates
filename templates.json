@@ -109,7 +109,7 @@
         "name": "GIT_KEY",
         "label": "Docker secret name",
         "description": "Docker secret name containing the SSH key for git repository access."
-      },
+      }
     ]
   },
   {
@@ -148,7 +148,7 @@
         "name": "GIT_KEY",
         "label": "Docker secret name",
         "description": "Docker secret name containing the SSH key for git repository access."
-      },
+      }
     ]
   },
   {
