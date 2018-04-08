@@ -1,0 +1,60 @@
+---
+
+version: '3.2'
+
+services:
+  server:
+    image: influxdb:alpine
+    ports:
+      - target: 8086
+        published: "${INFLUX_PORT:-8086}"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: server-data
+        target: /var/lib/influxdb
+      - type: volume
+        source: server-config
+        target: /etc/influxdb
+        read_only: true
+        volume:
+          nocopy: true
+    environment:
+      INFLUXDB_DB: ${DB:-}
+      INFLUXDB_ADMIN_USER: ${ADMIN_USER:-}
+      INFLUXDB_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      INFLUXDB_USER: ${USER:-}
+      INFLUXDB_USER_PASSWORD: ${USER_PASSWORD:-}
+      INFLUXDB_READ_USER: ${READ_USER:-}
+      INFLUXDB_READ_USER_PASSWORD: ${READ_USER_PASSWORD:-}
+      INFLUXDB_WRITE_USER: ${WRITE_USER:-}
+      INFLUXDB_WRITE_USER_PASSWORD: ${WRITE_USER_PASSWORD:-}
+    deploy:
+      replicas: 1
+  config:
+    image: uip9av6y/confgit
+    working_dir: /data
+    environment:
+      CONFGIT_URL: "${CONFIG_REPO:?missing config repo URL}"
+      CONFGIT_BRANCH: "${CONFIG_BRANCH:-master}"
+      CONFGIT_USERNAME: "${GIT_USER:-git}"
+      CONFGIT_IDENTITY_SECRET: config_reader_key
+    volumes:
+      - type: volume
+        source: server-config
+        target: /data
+    secrets:
+      - config_reader_key
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+volumes:
+  server-config:
+  server-data:
+
+secrets:
+  config_reader_key:
+    external:
+      name: "${GIT_KEY:-git_reader_key}"

@@ -1,6 +1,70 @@
 [
   {
     "type": "stack",
+    "title": "InfluxDB",
+    "description": "Scalable datastore for metrics, events, and real-time analytics",
+    "note": "InfluxDB is an open source time series database with no external dependencies. It's useful for recording metrics, events, and performing analytics.",
+    "categories": ["metrics", "database", "time-series", "monitoring"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "influxdb/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "INFLUX_PORT",
+        "label": "HTTP Port",
+        "description": "Exposed port of the HTTP API."
+      },
+      {
+        "name": "INFLUXDB_DB",
+        "label": "Database name",
+        "description": "Automatically initializes a database with the name of this environment variable."
+      },
+      {
+        "name": "INFLUXDB_ADMIN_USER",
+        "label": "Admin user name",
+        "description": "The name of the admin user to be created. If this is unset, no admin user is created."
+      },
+      {
+        "name": "INFLUXDB_ADMIN_PASSWORD",
+        "label": "Admin user password",
+        "description": "The password for the admin user configured with INFLUXDB_ADMIN_USER. If this is unset, a random password is generated and printed to standard out."
+      },
+      {
+        "name": "INFLUXDB_USER",
+        "label": "Database user name",
+        "description": "The name of a user to be created with no privileges. If INFLUXDB_DB is set, this user will be granted read and write permissions for that database."
+      },
+      {
+        "name": "INFLUXDB_USER_PASSWORD",
+        "label": "Database user password",
+        "description": "The password for the user configured with INFLUXDB_USER. If this is unset, a random password is generated and printed to standard out."
+      },
+      {
+        "name": "INFLUXDB_READ_USER",
+        "label": "Read-Only user name",
+        "description": "The name of a user to be created with read privileges on INFLUXDB_DB. If INFLUXDB_DB is not set, this user will have no granted permissions."
+      },
+      {
+        "name": "INFLUXDB_READ_USER_PASSWORD",
+        "label": "Read-Only user password",
+        "description": "The password for the user configured with INFLUXDB_READ_USER. If this is unset, a random password is generated and printed to standard out."
+      },
+      {
+        "name": "INFLUXDB_WRITE_USER",
+        "label": "Write-enabled user name",
+        "description": "The name of a user to be created with write privileges on INFLUXDB_DB. If INFLUXDB_DB is not set, this user will have no granted permissions."
+      },
+      {
+        "name": "INFLUXDB_WRITE_USER_PASSWORD",
+        "label": "Write-enabled user password",
+        "description": "The password for the user configured with INFLUXDB_WRITE_USER. If this is unset, a random password is generated and printed to standard out."
+      }
+    ]
+  },
+  {
+    "type": "stack",
     "title": "NSD",
     "description": "NLnet Labs Name Server Daemon",
     "note": "The NLnet Labs Name Server Daemon (NSD) is an authoritative DNS name server. It has been developed for operations in environments where speed, reliability, stability and security are of high importance.",
