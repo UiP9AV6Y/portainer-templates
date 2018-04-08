@@ -6,12 +6,8 @@ services:
   server:
     image: uip9av6y/nsd
     ports:
-      - target: 53
-        published: "${DNS_PORT:-53}"
-        protocol: tcp
-      - target: 53
-        published: "${DNS_PORT:-53}"
-        protocol: udp
+      - "${DNS_PORT:-53}:53"
+      - "${DNS_PORT:-53}:53/udp"
     volumes:
       - type: volume
         source: server-config
