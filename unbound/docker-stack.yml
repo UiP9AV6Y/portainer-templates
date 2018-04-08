@@ -1,0 +1,119 @@
+---
+
+version: '3.2'
+
+services:
+  server:
+    image: uip9av6y/unbound
+    ports:
+      - target: 53
+        published: "${DNS_PORT:-53}"
+        protocol: tcp
+      - target: 53
+        published: "${DNS_PORT:-53}"
+        protocol: udp
+    volumes:
+      - type: volume
+        source: server-hints
+        target: /etc/unbound/aux
+        # hints are retrieved and written upon start,
+        # so we need a RW volume
+        #read_only: true
+      - type: volume
+        source: server-hosts
+        target: /etc/unbound/server-conf.d
+        read_only: true
+      - type: volume
+        source: server-config
+        target: /etc/unbound/conf.d
+        read_only: true
+        volume:
+          nocopy: true
+    deploy:
+      replicas: 1
+  monitor:
+    image: uip9av6y/container-notify
+    command: [ "--watch=/data", "--notify=server:hup", ]
+    environment:
+      FORCE_POLLING: 'true'
+      # check for changes daily...
+      NOTIFY_LATENCY: 86400
+      # and wait for accumulated changes up to 1 minute
+      NOTIFY_DELAY: 60
+      LOG_VERBOSITY: 1
+      COMPOSE_PROJECT: '.'
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+      - type: volume
+        source: server-hints
+        target: /data/hints
+        read_only: true
+      - type: volume
+        source: server-hosts
+        target: /data/hosts
+        read_only: true
+      - type: volume
+        source: server-config
+        target: /data/config
+        read_only: true
+    deploy:
+      replicas: 1
+  config:
+    image: uip9av6y/confgit
+    working_dir: /data
+    environment:
+      CONFGIT_URL: "${CONFIG_REPO:?missing config repo URL}"
+      CONFGIT_BRANCH: "${CONFIG_BRANCH:-master}"
+      CONFGIT_USERNAME: "${GIT_USER:-git}"
+      CONFGIT_IDENTITY_SECRET: config_reader_key
+    volumes:
+      - type: volume
+        source: server-config
+        target: /data
+    secrets:
+      - config_reader_key
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+  root-hints:
+    image: appropriate/curl
+    command: [ "-sSL", "-o", "/data/root.hints", "https://www.internic.net/domain/named.cache" ]
+    labels:
+        rancher.schedule: "@monthly"
+    volumes:
+      - type: volume
+        source: server-hints
+        target: /data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+  hosts:
+    image: uip9av6y/dns-blackhole
+    command: [ "-s", "unbound", "-o", "/data/blackhole.conf", ]
+    environment:
+      DNSBH_HOSTS_StevenBlack: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+    labels:
+        rancher.schedule: "@monthly"
+    volumes:
+      - type: volume
+        source: server-hosts
+        target: /data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+volumes:
+  server-config:
+  server-hosts:
+  server-hints:
+
+secrets:
+  config_reader_key:
+    external:
+      name: "${GIT_KEY:-git_reader_key}"

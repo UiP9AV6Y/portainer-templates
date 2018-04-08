@@ -1,6 +1,45 @@
 [
   {
     "type": "stack",
+    "title": "Unbound",
+    "description": "Unbound DNS resolver",
+    "note": "Unbound is a validating, recursive, and caching DNS resolver.",
+    "categories": ["network", "dns"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "unbound/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "DNS_PORT",
+        "label": "DNS Port",
+        "description": "Exposed port for DNS queries."
+      },
+      {
+        "name": "CONFIG_REPO",
+        "label": "Repository URL",
+        "description": "URL pointing to the git repository containing Unbound configuration."
+      },
+      {
+        "name": "CONFIG_BRANCH",
+        "label": "Repository branch",
+        "description": "Repository branch."
+      },
+      {
+        "name": "GIT_USER",
+        "label": "Git User",
+        "description": "Username to authenticate against the remote repository."
+      },
+      {
+        "name": "GIT_KEY",
+        "label": "Docker secret name",
+        "description": "Docker secret name containing the SSH key for git repository access."
+      },
+    ]
+  },
+  {
+    "type": "stack",
     "title": "Unifi Controller",
     "description": "Unifi Access Point controller",
     "note": "The UniFi Controller is a wireless network management software solution from Ubiquiti Networks™. It allows you to manage multiple wireless networks using a web browser.",
