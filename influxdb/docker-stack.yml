@@ -6,9 +6,7 @@ services:
   server:
     image: influxdb:alpine
     ports:
-      - target: 8086
-        published: "${INFLUX_PORT:-8086}"
-        protocol: tcp
+      - "${INFLUX_PORT:-8086}:8086"
     volumes:
       - type: volume
         source: server-data
