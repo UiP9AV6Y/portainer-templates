@@ -1,0 +1,92 @@
+---
+
+version: '3.2'
+
+services:
+  server:
+    image: grafana/grafana
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    networks:
+      persistence:
+      sessions:
+    volumes:
+      - type: volume
+        source: server-data
+        target: /var/lib/grafana
+      - type: volume
+        source: server-config
+        target: /etc/grafana
+        read_only: true
+        volume:
+          nocopy: true
+    environment:
+      GF_DATABASE_TYPE: mysql
+      GF_DATABASE_HOST: persistence:3306
+      GF_DATABASE_USER: grafana
+      GF_DATABASE_PASSWORD: ${PERSISTENCE_PASSWORD:-grafana}
+      GF_SECURITY_ADMIN_USER: ${ADMIN_USER:-grafana}
+      GF_SECURITY_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-grafana}
+      GF_SESSION_PROVIDER: redis
+      GF_SESSION_PROVIDER_CONFIG: "addr=sessions:6379,pool_size=100,prefix=grafana"
+      GF_LOG_MODE: console
+    deploy:
+      replicas: 1
+  config:
+    image: uip9av6y/confgit
+    working_dir: /data
+    environment:
+      CONFGIT_URL: "${CONFIG_REPO:?missing config repo URL}"
+      CONFGIT_BRANCH: "${CONFIG_BRANCH:-master}"
+      CONFGIT_USERNAME: "${GIT_USER:-git}"
+      CONFGIT_IDENTITY_SECRET: config_reader_key
+    volumes:
+      - type: volume
+        source: server-config
+        target: /data
+    secrets:
+      - config_reader_key
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+  persistence:
+    image: mariadb
+    networks:
+      persistence:
+    volumes:
+      - type: volume
+        source: persistence-data
+        target: /var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: grafana
+      MYSQL_USER: grafana
+      MYSQL_PASSWORD: ${PERSISTENCE_PASSWORD:-grafana}
+    deploy:
+      replicas: 1
+  sessions:
+    image: redis:alpine
+    networks:
+      sessions:
+    volumes:
+      - type: volume
+        source: sessions-data
+        target: /data
+    deploy:
+      replicas: 1
+
+networks:
+  persistence:
+  sessions:
+
+volumes:
+  server-config:
+  server-data:
+  sessions-data:
+  persistence-data:
+
+secrets:
+  config_reader_key:
+    external:
+      name: "${GIT_KEY:-git_reader_key}"
