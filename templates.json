@@ -17,11 +17,6 @@
         "description": "Exposed port of the web interface."
       },
       {
-        "name": "INFLUXDB_DB",
-        "label": "Database name",
-        "description": "Automatically initializes a database with the name of this environment variable."
-      },
-      {
         "name": "ADMIN_USER",
         "label": "Admin user name",
         "description": "The name of the admin user to be created."
