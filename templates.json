@@ -34,7 +34,7 @@
       {
         "name": "CONFIG_REPO",
         "label": "Config repository URL",
-        "description": "URL pointing to the git repository containing NSD configuration."
+        "description": "URL pointing to the git repository containing configuration data."
       },
       {
         "name": "CONFIG_BRANCH",
