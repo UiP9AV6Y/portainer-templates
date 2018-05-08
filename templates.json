@@ -114,6 +114,26 @@
         "name": "INFLUXDB_WRITE_USER_PASSWORD",
         "label": "Write-enabled user password",
         "description": "The password for the user configured with INFLUXDB_WRITE_USER. If this is unset, a random password is generated and printed to standard out."
+      },
+      {
+        "name": "CONFIG_REPO",
+        "label": "Repository URL",
+        "description": "URL pointing to the git repository containing configuration data."
+      },
+      {
+        "name": "CONFIG_BRANCH",
+        "label": "Repository branch",
+        "description": "Repository branch."
+      },
+      {
+        "name": "GIT_USER",
+        "label": "Git User",
+        "description": "Username to authenticate against the remote repository."
+      },
+      {
+        "name": "GIT_KEY",
+        "label": "Docker secret name",
+        "description": "Docker secret name containing the SSH key for git repository access."
       }
     ]
   },
