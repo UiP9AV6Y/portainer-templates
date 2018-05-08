@@ -1,6 +1,40 @@
 [
   {
     "type": "stack",
+    "title": "Telegraf",
+    "description": "Telegraf is an agent for collecting metrics and writing them to InfluxDB or other outputs.",
+    "note": "Telegraf is an open source agent written in Go for collecting metrics and data on the system it's running on or from other services. Telegraf writes data it collects to InfluxDB in the correct format.",
+    "categories": ["metrics", "time-series", "monitoring"],
+    "platform": "linux",
+    "repository": {
+      "url": "https://github.com/uip9av6y/portainer-templates",
+      "stackfile": "telegraf/docker-stack.yml"
+    },
+    "env": [
+      {
+        "name": "CONFIG_REPO",
+        "label": "Config repository URL",
+        "description": "URL pointing to the git repository containing configuration data."
+      },
+      {
+        "name": "CONFIG_BRANCH",
+        "label": "Config repository branch",
+        "description": "Repository branch."
+      },
+      {
+        "name": "GIT_USER",
+        "label": "Git User",
+        "description": "Username to authenticate against the remote repositories."
+      },
+      {
+        "name": "GIT_KEY",
+        "label": "Docker secret name",
+        "description": "Docker secret name containing the SSH key for git repository access."
+      }
+    ]
+  },
+  {
+    "type": "stack",
     "title": "Grafana",
     "description": "The analytics platform for all your metrics",
     "note": "Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored.",

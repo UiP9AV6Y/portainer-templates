@@ -14,3 +14,4 @@ This repository hosts template ([**'Apps Templates'**][]) definitions for portai
 * NSD ([uip9av6y/nsd:latest](https://store.docker.com/community/images/uip9av6y/nsd))
 * InfluxDB ([influxdb:alpine](https://store.docker.com/images/influxdb))
 * Grafana ([grafana/grafana:latest](https://store.docker.com/community/images/grafana/grafana))
+* Telegraf ([telegraf:alpine](https://store.docker.com/images/telegraf))

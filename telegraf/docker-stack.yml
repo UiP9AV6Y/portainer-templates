@@ -1,0 +1,47 @@
+---
+
+version: '3.2'
+
+services:
+  agent:
+    image: telegraf:alpine
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: volume
+        source: agent-config
+        target: /etc/telegraf
+        read_only: true
+        volume:
+          nocopy: true
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+  config:
+    image: uip9av6y/confgit
+    working_dir: /data
+    environment:
+      CONFGIT_URL: "${CONFIG_REPO:?missing config repo URL}"
+      CONFGIT_BRANCH: "${CONFIG_BRANCH:-master}"
+      CONFGIT_USERNAME: "${GIT_USER:-git}"
+      CONFGIT_IDENTITY_SECRET: config_reader_key
+    volumes:
+      - type: volume
+        source: agent-config
+        target: /data
+    secrets:
+      - config_reader_key
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+volumes:
+  agent-config:
+
+secrets:
+  config_reader_key:
+    external:
+      name: "${GIT_KEY:-git_reader_key}"
