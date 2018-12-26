@@ -7,7 +7,7 @@
         "type": "object",
         "properties": {
             "type": {
-                "enum": ["stack", "container"]
+                "enum": [1, 2, 3]
             },
             "title": { "type": "string" },
             "note": { "type": "string" },
@@ -30,12 +30,15 @@
                 "enum": ["linux", "windows"]
             },
             "logo": { "type": "string" },
+            "name": { "type": "string" },
+            "administrator_only": { "type": "boolean" },
             "privileged": { "type": "boolean" },
             "interactive": { "type": "boolean" },
             "registry": { "type": "string" },
             "command": { "type": "string" },
             "network": { "type": "string" },
             "image": { "type": "string" },
+            "hostname": { "type": "string" },
             "restart_policy": {
                 "enum": [
                     "no",
@@ -54,7 +57,8 @@
                     "type": "object",
                     "properties": {
                         "container": { "type": "string" },
-                        "bind": { "type": "string" }
+                        "bind": { "type": "string" },
+                        "readonly": { "type": "boolean" }
                     },
                     "required": ["container"]
                 }
@@ -72,13 +76,17 @@
                             "type": "string",
                             "description": "label for the input in the UI"
                         },
-                        "type": {
-                            "enum": ["container"],
-                            "description": "Depending on the value in type field, the view will display a different input"
-                        },
-                        "set": {
+                        "description": {
                             "type": "string",
-                            "description": "pre-defined value for the variable, will not generate an input in the UI"
+                            "description": "a short description for this input, will be available as a tooltip in the UI"
+                        },
+                        "default": {
+                            "type": "string",
+                            "description": "default value associated to the variable"
+                        },
+                        "preset": {
+                            "type": "boolean",
+                            "description": "If set to true, the UI will not generate an input"
                         },
                         "select": {
                             "type": "array",
@@ -86,6 +94,17 @@
                         }
                     },
                     "required": ["name", "label"]
+                }
+            },
+            "labels": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": { "type": "string" },
+                        "value": { "type": "string" }
+                    },
+                    "required": ["name", "value"]
                 }
             }
         },
